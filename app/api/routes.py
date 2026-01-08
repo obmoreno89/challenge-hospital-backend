@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Query, status, Depends, Path, Body
+from fastapi import APIRouter, Query, status, Depends, Path, Body, File,UploadFile, Form
 from fastapi.exceptions import HTTPException
 from fastapi.responses import Response
 from sqlmodel import Session
@@ -93,11 +93,18 @@ def delete_ticket(ticket_id: int = Path(), session: Session = Depends(get_sessio
     )
     
 @router.post("/hospital/v1/operaciones/crear", response_model=ResponseTicket)
-def create_ticket(session: Session = Depends(get_session), ticket_data: CreateTicket = Body()):
+def create_ticket(
+    session: Session = Depends(get_session),
+    asunto: str = Form(...),
+    prioridad: int = Form(...),
+    detalle: str = Form(...),
+    archivo: UploadFile = File(...)
+):
     folio = generate_uuid()
-    new_ticket = post_ticket(session, ticket_data)
+    
+    new_ticket = post_ticket(session, asunto, prioridad, detalle, archivo)
     
     return ResponseTicket(
-        folio= folio,
-        mensaje= "Operación exitosa"
+        folio=folio,
+        mensaje="Operación exitosa"
     )
