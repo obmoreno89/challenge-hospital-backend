@@ -10,6 +10,7 @@ class Tickets(BaseModel):
     fecha: str = "05052026"
     estatus: int = 1
     archivo_url: str = "http://"
+    model_config = ConfigDict(from_attributes=True)
     
 
 class ResponseTickets(BaseModel):
