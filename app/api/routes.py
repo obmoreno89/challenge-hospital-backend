@@ -66,7 +66,16 @@ def parcial_update(session: Session = Depends(get_session), ticket_id: int = Pat
          raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail={
             "folio": folio,
             "mensaje": "no se permite numeros en negativo"
-            })      
+            })
+         
+    if update_tickets is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, 
+            detail={
+                "folio": folio,
+                "mensaje": f"El ticket con ID {ticket_id} no fue encontrado"
+            }
+        )      
     
     return ResponseTicket(
         folio=folio,
