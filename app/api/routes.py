@@ -56,13 +56,13 @@ def parcial_update(session: Session = Depends(get_session), ticket_id: int = Pat
     if update_tickets is None:
         return Response(status_code=status.HTTP_204_NO_CONTENT)
     
-    if ticket_data.stock is not None:
-        if ticket_data.stock == 0:
+    if ticket_data.prioridad is not None:
+        if ticket_data.prioridad == 0:
          raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail={
             "folio": folio,
-            "mensaje": "no puedes mandar un stock en 0"
+            "mensaje": "no puedes mandar un prioridad en 0"
         }) 
-        if ticket_data.stock < 0:
+        if ticket_data.prioridad < 0:
          raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail={
             "folio": folio,
             "mensaje": "no se permite numeros en negativo"
