@@ -5,9 +5,9 @@ class TicketBase(SQLModel):
     asunto: str = Field(max_length=50)
     prioridad: int = Field(ge=1)
     detalle: str = Field(max_length=200)
-    fecha: str
-    estatus: int = Field(ge=1)
-    archivo_url: str
+    fecha: str = Field(default="") 
+    estatus: int = Field(default=1)
+    archivo_url: Optional[str] = None
 
 
 class TicketTable(TicketBase, table=True):

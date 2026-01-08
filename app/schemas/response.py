@@ -9,9 +9,8 @@ class Tickets(BaseModel):
     detalle: str = "el programa no sirve"
     fecha: str = "05052026"
     estatus: int = 1
+    archivo_url: str = "http://"
     
-class DetailTicket(Tickets):
-    archivo_url: str
 
 class ResponseTickets(BaseModel):
     folio: str = "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"
@@ -24,4 +23,8 @@ class ResponseTickets(BaseModel):
 class ResponseDetailTicket(BaseModel):
     folio: str = "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"
     mensaje: str = "Operación exitosa"
-    resultado: List[DetailTicket]
+    resultado: List[Tickets]
+    
+class ResponseTicket(BaseModel):
+    folio: str = "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"
+    mensaje: str = "Operación exitosa"
