@@ -101,6 +101,32 @@ def create_ticket(
     archivo: UploadFile = File(...)
 ):
     folio = generate_uuid()
+    FORMATOS_VALIDOS = [
+        "application/pdf", 
+        "image/jpeg", 
+        "image/jpg", 
+        "image/png",
+        "image/webp"
+    ]
+    if archivo.content_type not in FORMATOS_VALIDOS:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail={
+                "folio": folio,
+                "mensaje": f"Archivo no permitido. Solo se acepta PDF o Imágenes (JPG, PNG, JPEG)."
+            }
+        )
+    
+    MAX_FILE_SIZE = 10485760 
+    
+    if archivo.size > MAX_FILE_SIZE:
+        raise HTTPException(
+            status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
+            detail={
+                "folio": folio,
+                "mensaje": f"El archivo '{archivo.filename}' es demasiado pesado ({round(archivo.size / 1024 / 1024, 2)} MB). El límite es 10 MB."
+            }
+        )
     
     new_ticket = post_ticket(session, asunto, prioridad, detalle, archivo)
     
